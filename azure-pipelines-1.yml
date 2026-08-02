@@ -1,0 +1,55 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+name: "Cloud Data Access App Deploy"
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+- name: deployDev1
+  displayName: Deploy to Dev1
+  type: boolean
+  default: false
+
+- name: deployQA1
+  displayName: Deploy to QA11
+  type: boolean
+  default: false
+
+
+- name: deployUAT1
+  displayName: Deploy to UAT1
+  type: boolean
+  default: false
+    
+- name: deployProd
+  displayName: Deploy to Prod
+  type: boolean
+  default: false
+  
+variables:
+- name: terraform_version
+  value: '1.6.3'
+- name: forceDestroy
+  value: 'false'
+
+stages:
+
+- ${{ if eq(parameters.deploydev1, 'deployDev1')}}:
+  variables:
+  - name: environment
+    vaule: 'dev'
+
+  - stage: Cheknov
+    displayName: Plan stage
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+
